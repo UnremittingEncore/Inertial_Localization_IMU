@@ -14,7 +14,7 @@ const char* password = "REPLACE_WITH_YOUR_PASSWORD";
 ```
 
 ## Useful Links
-- Project https://RandomNerdTutorials.com/esp32-mpu-6050-web-server/
+- Related Project https://RandomNerdTutorials.com/esp32-mpu-6050-web-server/
 - Kalman Filter Link https://github.com/jarzebski/Arduino-KalmanFilter
  
  
