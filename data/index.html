@@ -1,0 +1,54 @@
+<!--
+  Rui Santos
+  Complete project details at https://RandomNerdTutorials.com/esp32-mpu-6050-web-server/
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files.
+  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+
+<!DOCTYPE HTML><html>
+    
+<head>
+  <title>ESP Web Server</title>
+  <link rel="shortcut icon" href="favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/107/three.min.js"></script>
+</head>
+    
+<body>
+  <div class="topnav">
+    <h1><i class="fas fa-tachometer-alt"></i> IMU Readings <i class="fas fa-tachometer-alt"></i></h1>
+  </div>
+  <div class="content">
+    <div class="cards">
+      <div class="card">
+        <p class="card-title">GYROSCOPE</p>
+        <p><span class="reading">X: <span id="gyroX"></span> rad</span></p>
+        <p><span class="reading">Y: <span id="gyroY"></span> rad</span></p>
+        <p><span class="reading">Z: <span id="gyroZ"></span> rad</span></p>
+      </div>
+      <div class="card">
+        <p class="card-title">ACCELEROMETER</p>
+        <p><span class="reading">X: <span id="accX"></span> g</sup></span></p>
+        <p><span class="reading">Y: <span id="accY"></span> g</sup></span></p>
+        <p><span class="reading">Z: <span id="accZ"></span> g</sup></span></p>
+      </div>
+      <div class="card">
+        <p class="card-title">KALMAN</p>
+        <p><span class="reading">Pitch: <span id="kalPitch"></span> rad</span></p>
+        <p><span class="reading">Roll: <span id="kalRoll"></span> rad</span></p>
+        <p><span class="reading">Yaw: <span id="kalYaw"></span> rad</span></p>
+      </div>
+    </div>
+    <button id="reset" onclick="resetPosition(this)">Calibrate Gyro</button>
+    <div class="cube-content">
+      <div id="3Dcube"></div>
+    </div>
+  </div>
+<script src="script.js"></script>
+</body>
+    
+</html>
