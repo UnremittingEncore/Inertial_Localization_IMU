@@ -31,24 +31,16 @@ function init3D(){
   const geometry = new THREE.BoxGeometry(5, 1, 4);
 
   // Materials of each face
-  var cubeMaterials1 = [
+  var cubeMaterials = [
     new THREE.MeshBasicMaterial({color:0x008080}),
     new THREE.MeshBasicMaterial({color:0x008080}),
     new THREE.MeshBasicMaterial({color:0x008080}),
     new THREE.MeshBasicMaterial({color:0x008080}),
     new THREE.MeshBasicMaterial({color:0x008080}),
     new THREE.MeshBasicMaterial({color:0x008080}),
-  ];
-  var cubeMaterials2 = [
-    new THREE.MeshBasicMaterial({color:0x5e6dcc}),
-    new THREE.MeshBasicMaterial({color:0x5e6dcc}),
-    new THREE.MeshBasicMaterial({color:0x5e6dcc}),
-    new THREE.MeshBasicMaterial({color:0x5e6dcc}),
-    new THREE.MeshBasicMaterial({color:0x5e6dcc}),
-    new THREE.MeshBasicMaterial({color:0x5e6dcc}),
   ];
 
-  const material = new THREE.MeshFaceMaterial(cubeMaterials1);
+  const material = new THREE.MeshFaceMaterial(cubeMaterials);
 
   cube = new THREE.Mesh(geometry, material);
   scene.add(cube);
@@ -85,26 +77,9 @@ if (!!window.EventSource) {
     }
   }, false);
 
-  source.addEventListener('gyro_readings', function(e) {
-    //console.log("gyro_readings", e.data);
-    var obj = JSON.parse(e.data);
-    document.getElementById("gyroX").innerHTML = obj.gyroX;
-    document.getElementById("gyroY").innerHTML = obj.gyroY;
-    document.getElementById("gyroZ").innerHTML = obj.gyroZ;
-
-    //Change cube rotation after receiving the readings
-    // cube.rotation.x = obj.gyroY;
-    // cube.rotation.y = obj.gyroZ;
-    // cube.rotation.z = obj.gyroX;
-    // renderer.render(scene, camera);
-  }, false);
-
   source.addEventListener('kalman_readings', function(e) {
     //console.log("kal_readings", e.data);
     var obj = JSON.parse(e.data);
-    document.getElementById("kalPitch").innerHTML = obj.kalPitch;
-    document.getElementById("kalRoll").innerHTML = obj.kalRoll;
-    document.getElementById("kalYaw").innerHTML = obj.kalYaw;
 
     //Change cube rotation after receiving the readings
     cube.rotation.x = obj.kalRoll;
@@ -114,13 +89,22 @@ if (!!window.EventSource) {
   }, false);
 
   source.addEventListener('accelerometer_readings', function(e) {
-    console.log("accelerometer_readings", e.data);
+    //console.log("accelerometer_readings", e.data);
     var obj = JSON.parse(e.data);
     document.getElementById("accX").innerHTML = obj.accX;
-    document.getElementById("accY").innerHTML = obj.accY;
-    document.getElementById("accZ").innerHTML = obj.accZ;
+    document.getElementById("u").innerHTML = obj.u;
+    document.getElementById("v").innerHTML = obj.v;
+    document.getElementById("s0").innerHTML = obj.s0;
+    document.getElementById("s1").innerHTML = obj.s1;
   }, false);
 }
+
+var sec = 0;
+function pad ( val ) { return val > 9 ? val : "0" + val; }
+setInterval( function(){
+    document.getElementById("seconds").innerHTML=pad(++sec%60);
+    document.getElementById("minutes").innerHTML=pad(parseInt(sec/60,10));
+}, 1000)
 
 function resetPosition(element){
   var xhr = new XMLHttpRequest();

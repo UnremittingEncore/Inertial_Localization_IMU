@@ -20,30 +20,28 @@
     
 <body>
   <div class="topnav">
-    <h1><i class="fas fa-tachometer-alt"></i> IMU Readings <i class="fas fa-tachometer-alt"></i></h1>
+    <h1><i class="fas fa-tachometer-alt"></i> Inertial Localization with IMU <i class="fas fa-tachometer-alt"></i></h1>
   </div>
   <div class="content">
     <div class="cards">
       <div class="card">
-        <p class="card-title">GYROSCOPE</p>
-        <p><span class="reading">X: <span id="gyroX"></span> rad</span></p>
-        <p><span class="reading">Y: <span id="gyroY"></span> rad</span></p>
-        <p><span class="reading">Z: <span id="gyroZ"></span> rad</span></p>
+        <p class="card-title">Acceleration & Time</p>
+        <p><span class="reading">Acceleration: <span id="accX"></span> m/s<sup>2</sup></span></p>
+        <p>Time - <span id="minutes"></span>:<span id="seconds"></span></p>
+        <button id="reset" onclick="resetPosition(this)">Calibrate Gyro</button>
       </div>
       <div class="card">
-        <p class="card-title">ACCELEROMETER</p>
-        <p><span class="reading">X: <span id="accX"></span> g</sup></span></p>
-        <p><span class="reading">Y: <span id="accY"></span> g</sup></span></p>
-        <p><span class="reading">Z: <span id="accZ"></span> g</sup></span></p>
+        <p class="card-title">Speed</p>
+        <p><span class="reading">Initial velocity: <span id="u"></span> cm/s</span></p>
+        <p><span class="reading">Current velocity: <span id="v"></span> cm/s</span></p>
       </div>
       <div class="card">
-        <p class="card-title">KALMAN</p>
-        <p><span class="reading">Pitch: <span id="kalPitch"></span> rad</span></p>
-        <p><span class="reading">Roll: <span id="kalRoll"></span> rad</span></p>
-        <p><span class="reading">Yaw: <span id="kalYaw"></span> rad</span></p>
+        <p class="card-title">Position</p>
+        <p><span class="reading">Initial position: <span id="s0"></span> cm</span></p>
+        <p><span class="reading">Current position: <span id="s1"></span> cm</span></p>
       </div>
     </div>
-    <button id="reset" onclick="resetPosition(this)">Calibrate Gyro</button>
+   
     <div class="cube-content">
       <div id="3Dcube"></div>
     </div>

@@ -40,8 +40,8 @@ const float multiplier = 0.0001;
 //----------------------------------
 
 // Replace with your network credentials
-const char* ssid = "MyNetwork";
-const char* password = "so8tbbdlelz6";
+const char* ssid = "Shamballa";
+const char* password = "9849545838";
 
 // Create AsyncWebServer object on port 80
 AsyncWebServer server(80);
@@ -56,10 +56,17 @@ JSONVar readings;
 unsigned long lastTime = 0;  
 unsigned long lastTimeKal = 0;
 unsigned long lastTimeAcc = 0;
-unsigned long gyroDelay = 50;
-unsigned long kalmanDelay = 50;
-unsigned long accelerometerDelay = 50;
+unsigned long gyroDelay = 10;
+unsigned long kalmanDelay = 10;
+unsigned long accelerometerDelay = 10;
 
+// ----- Speed & Distance variables -----
+
+float u,v,dv,s0,s1,ds;
+float temp_pos = 0;
+float temp_vel = 0;
+
+// --------------------------------------
 // Create a sensor object
 Adafruit_MPU6050 mpu;
 
@@ -137,12 +144,23 @@ String getGyroReadings(){
 String getAccReadings() {
   mpu.getEvent(&a, &g, &temp);
   // Get current acceleration values in g-force units and removing fluctuations with a low pass filter  
-  accX = (a.acceleration.x*alpha+(a.acceleration.x*(1.0-alpha)))/9.8;
-  accY = (a.acceleration.y*alpha+(a.acceleration.y*(1.0-alpha)))/9.8;
-  accZ = (a.acceleration.z*alpha+(a.acceleration.z*(1.0-alpha)))/9.8;
+  accX = a.acceleration.x*alpha+(a.acceleration.x*(1.0-alpha));
+
+  dv = accX*accelerometerDelay/1000;
+  u = 0;
+  v = temp_vel + dv;
+  temp_vel = v;
+  
+  s0 = 0;
+  ds = v*accelerometerDelay/1000;
+  s1 = temp_pos + ds;
+  temp_pos = s1;
+  
   readings["accX"] = String(accX);
-  readings["accY"] = String(accY);
-  readings["accZ"] = String(accZ);
+  readings["u"] = String(u);
+  readings["v"] = String(abs(v)/10);
+  readings["s0"] = String(s0);
+  readings["s1"] = String(abs(s1)/50);
   String accString = JSON.stringify (readings);
   return accString;
 }
@@ -227,11 +245,6 @@ void setup() {
 }
 
 void loop() {
-  if ((millis() - lastTime) > gyroDelay) {
-    // Send Events to the Web Server with the Sensor Readings
-    events.send(getGyroReadings().c_str(),"gyro_readings",millis());
-    lastTime = millis();
-  }
   if ((millis() - lastTimeAcc) > accelerometerDelay) {
     // Send Events to the Web Server with the Sensor Readings
     events.send(getAccReadings().c_str(),"accelerometer_readings",millis());
